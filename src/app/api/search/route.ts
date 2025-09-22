@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { api_config } from '@/config/api';
+import { api_config } from '@/lib/runtime';
 import { parseStringPromise } from 'xml2js';
 
 // 定义每个API请求的超时时间（毫秒）
