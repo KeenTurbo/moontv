@@ -90,5 +90,8 @@
       "prettier -w"
     ]
   },
-  "packageManager": "pnpm@10.14.0"
+   "packageManager": "pnpm@9.12.0",
+   "engines": {
+    "pnpm": "9.12.0"
+   }
 }
