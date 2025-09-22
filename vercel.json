@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm install && npm run build",
+  "installCommand": "npm install",
   "headers": [
     {
       "source": "/fonts/inter-var-latin.woff2",
