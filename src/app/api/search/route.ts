@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { api_config } from '@/lib/runtime';
 import { parseStringPromise } from 'xml2js';
 
-const FETCH_TIMEOUT = 3000; // 3秒超时
-const MAX_CONCURRENT = 10; // 最多同时请求10个源
+const FETCH_TIMEOUT = 3000;
+const MAX_CONCURRENT = 8;
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -13,7 +13,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Search query not provided' }, { status: 400 });
   }
 
-  // 获取所有API源并限制并发数
   const apiEntries = Object.entries(api_config.api_site).slice(0, MAX_CONCURRENT);
   
   const promises = apiEntries.map(async ([key, site]) => {
@@ -29,7 +28,6 @@ export async function GET(req: Request) {
       });
 
       clearTimeout(timeoutId);
-
       if (!response.ok) return [];
       
       const xmlText = await response.text();
@@ -41,7 +39,7 @@ export async function GET(req: Request) {
         ? parsed.rss.list.video 
         : [parsed.rss.list.video];
       
-      return videos.slice(0, 20).map((video: any) => ({ 
+      return videos.slice(0, 15).map((video: any) => ({ 
         ...video, 
         source: key, 
         source_name: site.name 
