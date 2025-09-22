@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm install --legacy-peer-deps && npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npm ci --include=dev && npm run build",
+  "installCommand": "npm ci --include=dev",
   "headers": [
     {
       "source": "/fonts/inter-var-latin.woff2",
