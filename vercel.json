@@ -1,6 +1,4 @@
 {
-  "buildCommand": "npm ci --include=dev && npm run build",
-  "installCommand": "npm ci --include=dev",
   "headers": [
     {
       "source": "/fonts/inter-var-latin.woff2",
