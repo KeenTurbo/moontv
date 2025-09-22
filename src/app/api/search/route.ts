@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import { parseStringPromise } from 'xml2js';
-
-// 直接导入整个 runtime 模块
 import runtime from '@/lib/runtime';
 
 const FETCH_TIMEOUT = 3000;
@@ -15,14 +13,12 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Search query not provided' }, { status: 400 });
   }
 
-  // 使用 runtime.api_config 或 runtime.default.api_config
-  const apiConfig = runtime?.api_config || runtime?.default?.api_config;
-  
-  if (!apiConfig) {
+  // runtime 直接包含 api_site，与 config.json 结构一致
+  if (!runtime?.api_site) {
     return NextResponse.json({ error: 'API configuration not found' }, { status: 500 });
   }
 
-  const apiEntries = Object.entries(apiConfig.api_site).slice(0, MAX_CONCURRENT);
+  const apiEntries = Object.entries(runtime.api_site).slice(0, MAX_CONCURRENT);
   
   const promises = apiEntries.map(async ([key, site]: [string, any]) => {
     const controller = new AbortController();
