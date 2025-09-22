@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm gen:runtime && pnpm gen:manifest && next dev -H 0.0.0.0",
-    "build": "pnpm gen:runtime && pnpm gen:manifest && next build",
+    "dev": "npm run gen:runtime && npm run gen:manifest && next dev -H 0.0.0.0",
+    "build": "npm run gen:runtime && npm run gen:manifest && next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "eslint src --fix && pnpm format",
+    "lint:fix": "eslint src --fix && npm run format",
     "lint:strict": "eslint --max-warnings=0 src",
     "typecheck": "tsc --noEmit --incremental false",
     "test:watch": "jest --watch",
@@ -89,13 +89,5 @@
     "**/*.{json,css,scss,md,webmanifest}": [
       "prettier -w"
     ]
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": ["webpack"],
-      "allowedVersions": {
-        "next": "14"
-      }
-    }
   }
 }
