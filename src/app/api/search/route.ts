@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { api_config } from '@/lib/runtime';
 import { parseStringPromise } from 'xml2js';
+
+// 直接导入整个 runtime 模块
+import runtime from '@/lib/runtime';
 
 const FETCH_TIMEOUT = 3000;
 const MAX_CONCURRENT = 8;
@@ -13,9 +15,16 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Search query not provided' }, { status: 400 });
   }
 
-  const apiEntries = Object.entries(api_config.api_site).slice(0, MAX_CONCURRENT);
+  // 使用 runtime.api_config 或 runtime.default.api_config
+  const apiConfig = runtime?.api_config || runtime?.default?.api_config;
   
-  const promises = apiEntries.map(async ([key, site]) => {
+  if (!apiConfig) {
+    return NextResponse.json({ error: 'API configuration not found' }, { status: 500 });
+  }
+
+  const apiEntries = Object.entries(apiConfig.api_site).slice(0, MAX_CONCURRENT);
+  
+  const promises = apiEntries.map(async ([key, site]: [string, any]) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
 
